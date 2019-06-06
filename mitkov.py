@@ -11,9 +11,12 @@ class Mitkov():
   
   def anaphora_resolution(self):
     self.get_anaphoras()
+    finals = []
     for anaphora in self.anaphoras:
-      anaphora.run_algorithm()
+      final = anaphora.run_algorithm()
+      finals.append(final)
     print("---anaphoras", self.anaphoras)
+    print("--- finals", finals)
 
   def get_pronouns(self):
     pronouns = []
@@ -29,6 +32,7 @@ class Mitkov():
     # code.interact(local=dict(globals(), **locals()))
     for pronoun in pronouns:
       anaphora = AnaphoraCandidates(pronoun)
+      recent_count = 0
       preceding_sentences = 0
       pronoun_found = False
       first_sentence = True
@@ -45,8 +49,9 @@ class Mitkov():
                 reiteration = self.get_reiteration_count(word)
                 self.compute_after_verb(word)
                 distance = self.get_distance(pronoun, word)
-                candidate = Candidate(word, first_sentence, reiteration, distance)
+                candidate = Candidate(word, first_sentence, reiteration, distance, recent_count)
                 anaphora.add_candidate(candidate)
+                recent_count += 1
         first_sentence = False
       self.anaphoras.append(anaphora)
   
@@ -92,7 +97,6 @@ class Mitkov():
         if iterator_word == word:
           noun_found = True
     distance = abs(pronoun_sentence - noun_sentence)
-    print("---- distance", distance)
     if distance <= 2:
       return 2-distance
     else:

@@ -1,7 +1,7 @@
 import code
 
 class Candidate:
-  def __init__(self, word, first_sentence, reiteration_score, distance_score):
+  def __init__(self, word, first_sentence, reiteration_score, distance_score, recent):
     self.word = word
     self.np_ind = 0
     self.definite_score = 0
@@ -11,6 +11,7 @@ class Candidate:
     self.reiteration_score = reiteration_score
     self.resolving_it_score = 0
     self.distance_score = distance_score
+    self.recent = recent
 
   def __str__(self):
     return "Candidate: " + str(self.word.original) + "--- np_ind: " + str(self.np_ind)
@@ -42,7 +43,32 @@ class AnaphoraCandidates:
       self.collocation_pattern_7(candidate)
       self.rezolving_it_8(candidate)
       self.referential_distance_9(candidate)
-
+    finals = []
+    max_value = -999
+    distance_score = -1
+    
+    for candidate in self.candidates:
+      if candidate.np_ind > max_value:
+        max_value = candidate.np_ind
+      if candidate.distance_score > distance_score:
+        distance_score = candidate.distance_score
+    for candidate in self.candidates:
+      if candidate.np_ind == max_value:
+        finals.append(candidate)
+    
+    code.interact(local=dict(globals(), **locals()))
+    if len(finals) == 1:
+      return finals[0]
+    else:
+      dist_finals = []
+      for candidate in finals:
+        if candidate.distance_score == distance_score:
+          dist_finals.append(candidate)
+      
+      if len(dist_finals) == 1:
+        return dist_finals[0]
+      else:
+        return min(dist_finals, key=lambda c: c.recent)
   
   def definiteness_1(self, candidate):
     if not candidate.word.definite:
