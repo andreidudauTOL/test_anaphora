@@ -29,16 +29,18 @@ class Mitkov():
       anaphora = AnaphoraCandidates(pronoun)
       preceding_sentences = 0
       pronoun_found = False
+      first_sentence = True
       for sentence in self.sentences:
         if pronoun_found:
           preceding_sentences += 1
         if preceding_sentences > 2:
           break
-        code.interact(local=dict(globals(), **locals()))
         for phrase in sentence.phrases.values():
           # code.interact(local=dict(globals(), **locals()))
           if phrase.type == WordType.NOUN:
             for word in phrase.words:
               if word.type == WordType.NOUN and anaphora.agrees(word):
-                anaphora.add_candidate(Candidate(word))
+                print("--- first sentence: ", first_sentence, word)
+                anaphora.add_candidate(Candidate(word,first_sentence))
+        first_sentence = False
       self.anaphoras.append(anaphora)

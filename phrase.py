@@ -1,10 +1,10 @@
 from constants import WordType
 
 class Phrase():
-  def __init__(self, word):
+  def __init__(self, word, phrase_type):
     self.words = []
-    self.type = WordType(word.chunk[0])
-    self.order = int(word.chunk[-1])
+    self.type = WordType(phrase_type[0])
+    self.order = int(phrase_type[-1])
     self.add_to_phrase(word)
   
   def add_to_phrase(self, word):

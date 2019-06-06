@@ -1,11 +1,13 @@
 import code
 
 class Candidate:
-  def __init__(self, word):
+  def __init__(self, word, first_sentence):
     self.word = word
     self.np_ind = 0
     self.definite_score = 0
     self.preposition_score = 0
+    self.first_sentence = first_sentence
+    self.first_sentence_score = 0
 
   def __str__(self):
     return "Candidate: " + str(self.word.original) + "--- np_ind: " + str(self.np_ind)
@@ -22,14 +24,15 @@ class AnaphoraCandidates:
     self.candidates.append(candidate)
   
   def agrees(self, noun):
-    print(noun)
-    print(self.pronoun.gender, noun.gender, self.pronoun.number, noun.number)
+    # print(noun)
+    # print(self.pronoun.gender, noun.gender, self.pronoun.number, noun.number)
     return (self.pronoun.gender == noun.gender and self.pronoun.number == noun.number) or noun.proper == True
   
   def run_algorithm(self):
     for candidate in self.candidates:
       self.definiteness_1(candidate)
       self.preposition_2(candidate)
+      self.first_sentence_3(candidate)
   
   def definiteness_1(self, candidate):
     if not candidate.word.definite:
@@ -40,6 +43,11 @@ class AnaphoraCandidates:
     if candidate.word.preposition:
       candidate.np_ind -= 1
       candidate.preposition_score = -1
+  
+  def first_sentence_3(self, candidate):
+    if candidate.first_sentence:
+      candidate.np_ind += 1
+      self.first_sentence_score = 1
   
   def __str__(self):
     return "pron: " + str(self.pronoun) + "\n--- candidates: " + str(self.candidates)
