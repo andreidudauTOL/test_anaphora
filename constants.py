@@ -16,6 +16,14 @@ class WordType(Enum):
   ABBREVIATION = "Y"
   PARTICLE = "Q"
   END = "."
+  PUNCTUATION = ","
+  PUNCTUATION2 = ";"
+  PUNCTUATION3 = ":"
+  SHORT_PRONOUN = "-"
+
+  @staticmethod
+  def is_punctuation(word_type):
+    return word_type == WordType.PUNCTUATION or word_type == WordType.PUNCTUATION2 or word_type == WordType.PUNCTUATION3
 
 @unique 
 class Gender(Enum):

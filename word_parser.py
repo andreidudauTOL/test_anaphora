@@ -24,10 +24,14 @@ class WordParser:
           print("--- word", word.text, word.attrib)
           if WordParser.use_word_class(word):
             w = Word(word.text, word.attrib)
+            if w.is_short_pronoun():
+              print("--short", w, w.chunk)
+              w.compute_order_for_short_pronoun(words[-1])
+              print("--short2", w, w.chunk)
             words.append(w)
-            print("--- word", w.original, w.type)
+            # print("--- word", w.original, w.type)
           else:
             xw = XcesWord(word.text, word.attrib)
             words.append(xw)
-            print("--- xces_word", xw.original, xw.type)
+            # print("--- xces_word", xw.original, xw.type)
     return words

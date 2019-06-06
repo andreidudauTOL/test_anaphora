@@ -11,12 +11,13 @@ class Word(XcesWord):
     self.proper = False
     self.definite = False
     self.preposition = False
+    self.after_verb = False
     if self.type == WordType.PRONOUN:
-      self.gender == Gender(self.ana[3])
+      self.gender = Gender(self.ana[3])
       self.number = Number(self.ana[4])
     else:
       if len(self.ana) > 2:
-        self.gender == Gender(self.ana[2])
+        self.gender = Gender(self.ana[2])
         self.number = Number(self.ana[3])
         if self.ana[5] == "y":
           self.definite = True

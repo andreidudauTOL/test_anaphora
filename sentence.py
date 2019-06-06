@@ -11,7 +11,7 @@ class Sentence(object):
     self.words = words
     self.phrases = {}
     for word in words:
-      if word.type == WordType.END or word.type == WordType.CONJUNCTION:
+      if word.type == WordType.END or word.type == WordType.CONJUNCTION or WordType.is_punctuation(word.type):
         continue
       for phrase in word.chunk.split(','):
         if phrase in self.phrases:
