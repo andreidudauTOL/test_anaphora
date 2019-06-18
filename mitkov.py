@@ -49,7 +49,9 @@ class Mitkov():
                 reiteration = self.get_reiteration_count(word)
                 self.compute_after_verb(word)
                 distance = self.get_distance(pronoun, word)
-                candidate = Candidate(word, first_sentence, reiteration, distance, recent_count)
+                prev_word = self.get_previous_word(word)
+                candidate = Candidate(
+                    word, first_sentence, reiteration, distance, recent_count, prev_word)
                 anaphora.add_candidate(candidate)
                 recent_count += 1
         first_sentence = False

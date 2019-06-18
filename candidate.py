@@ -1,7 +1,8 @@
 import code
+from constants import WordType
 
 class Candidate:
-  def __init__(self, word, first_sentence, reiteration_score, distance_score, recent):
+  def __init__(self, word, first_sentence, reiteration_score, distance_score, recent, previous_word):
     self.word = word
     self.np_ind = 0
     self.definite_score = 0
@@ -12,6 +13,7 @@ class Candidate:
     self.resolving_it_score = 0
     self.distance_score = distance_score
     self.recent = recent
+    self.previous_word = previous_word
 
   def __str__(self):
     return "Candidate: " + str(self.word.original) + "--- np_ind: " + str(self.np_ind)
@@ -56,7 +58,7 @@ class AnaphoraCandidates:
       if candidate.np_ind == max_value:
         finals.append(candidate)
     
-    code.interact(local=dict(globals(), **locals()))
+    # code.interact(local=dict(globals(), **locals()))
     if len(finals) == 1:
       return finals[0]
     else:
@@ -87,6 +89,9 @@ class AnaphoraCandidates:
   
   def indicating_verbs_4(self, candidate):
     pass
+    verbs = ['avea', 'prezenta', 'ilustra', 'identifica', 'verifica', 'arata', 'descrie']
+    if candidate.previous_word.type == WordType.VERB and candidate.previous_word.lemma in verbs:
+      candidate.np_ind += 1
 
   def lexical_reiteration_5(self, candidate):
     candidate.np_ind += candidate.reiteration_score
@@ -96,6 +101,7 @@ class AnaphoraCandidates:
   
   def collocation_pattern_7(self, candidate):
     pass
+    #nlptools.info.uaic.ro/Resources.jsp
   
   def rezolving_it_8(self, candidate):
     if self.pronoun.after_verb and candidate.word.after_verb:
