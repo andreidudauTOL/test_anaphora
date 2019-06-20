@@ -2,6 +2,17 @@ from xces_word import XcesWord
 from constants import WordType, Gender, Number
 import code
 
+female_names = []
+f = open("female_names.txt", "r")
+for x in f:
+  female_names.append(x.replace(' ', '').replace('\n', ''))
+
+male_names = []
+f = open("male_names.txt", "r")
+for x in f:
+  male_names.append(x.replace(' ', '').replace('\n', ''))
+
+
 class Word(XcesWord):
 
   def __init__(self, word, attributes):
@@ -23,5 +34,7 @@ class Word(XcesWord):
           self.definite = True
       else:
         self.proper = True
+        if self.lemma in female_names:
+          self.gender = Gender.F
   
 

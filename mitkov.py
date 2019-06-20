@@ -14,7 +14,10 @@ class Mitkov():
     finals = []
     for anaphora in self.anaphoras:
       final = anaphora.run_algorithm()
-      finals.append(final)
+      if final is None:
+        print("--- NO ANAPHORA FOUND FOR ", anaphora.pronoun)
+      else:
+        finals.append(final)
     print("---anaphoras", self.anaphoras)
     print("--- finals", finals)
 
@@ -39,13 +42,15 @@ class Mitkov():
       for sentence in self.sentences:
         if pronoun_found:
           preceding_sentences += 1
-        if preceding_sentences > 2:
+        if preceding_sentences > 0:
           break
         for phrase in sentence.phrases.values():
           # code.interact(local=dict(globals(), **locals()))
           if phrase.type == WordType.NOUN:
+            at_least_one_found = False
             for word in phrase.words:
               if word.type == WordType.NOUN and anaphora.agrees(word):
+                at_least_one_found = True
                 reiteration = self.get_reiteration_count(word)
                 self.compute_after_verb(word)
                 distance = self.get_distance(pronoun, word)
@@ -54,6 +59,19 @@ class Mitkov():
                     word, first_sentence, reiteration, distance, recent_count, prev_word)
                 anaphora.add_candidate(candidate)
                 recent_count += 1
+            if not at_least_one_found: #no specific word agrees with pronoun, try whole phrase
+              phrase.compute_phrase_gender_number()
+              if anaphora.agrees(phrase):
+                recent_count += 1
+                for word in phrase.words:
+                  if word.type == WordType.NOUN:
+                    reiteration = self.get_reiteration_count(word)
+                    self.compute_after_verb(word)
+                    distance = self.get_distance(pronoun, word)
+                    prev_word = self.get_previous_word(word)
+                    candidate = Candidate(
+                        word, first_sentence, reiteration, distance, recent_count, prev_word)
+                    anaphora.add_candidate(candidate)
         first_sentence = False
       self.anaphoras.append(anaphora)
   

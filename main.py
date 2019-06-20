@@ -7,6 +7,11 @@ from mitkov import Mitkov
 # "Lupoaica are blănuri. Ele sunt foarte frumoase și sunt pe mese."
 # Soldatul a luat mașina, a spălat-o, a curățat-o și a înapoiat-o.
 # code.interact(local=dict(globals(), **locals()))
-mitkov = Mitkov(
-    "Lupoaica are blănuri. Ele sunt foarte frumoase și sunt pe mese.")
+text = "Câinele și băiatul sunt afară. Ei sunt cuminți."
+text = text.replace(','," ")
+text = text.replace(':', " ")
+text = text.replace(';', " ")
+text = text.replace('\"', " ")
+text = text.replace('\'', " ")
+mitkov = Mitkov(text)
 mitkov.anaphora_resolution()

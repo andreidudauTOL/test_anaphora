@@ -32,7 +32,7 @@ class AnaphoraCandidates:
   def agrees(self, noun):
     # print(noun)
     # print(self.pronoun.gender, noun.gender, self.pronoun.number, noun.number)
-    return (self.pronoun.gender == noun.gender and self.pronoun.number == noun.number) or noun.proper == True
+    return (self.pronoun.gender == noun.gender and self.pronoun.number == noun.number) #or noun.proper == True
   
   def run_algorithm(self):
     for candidate in self.candidates:
@@ -70,7 +70,10 @@ class AnaphoraCandidates:
       if len(dist_finals) == 1:
         return dist_finals[0]
       else:
-        return min(dist_finals, key=lambda c: c.recent)
+        if len(dist_finals) > 0:
+          return min(dist_finals, key=lambda c: c.recent)
+        else:
+          return None
   
   def definiteness_1(self, candidate):
     if not candidate.word.definite:
@@ -88,10 +91,12 @@ class AnaphoraCandidates:
       self.first_sentence_score = 1
   
   def indicating_verbs_4(self, candidate):
-    pass
     verbs = ['avea', 'prezenta', 'ilustra', 'identifica', 'verifica', 'arata', 'descrie']
-    if candidate.previous_word.type == WordType.VERB and candidate.previous_word.lemma in verbs:
-      candidate.np_ind += 1
+    if candidate.previous_word is not None:
+      if candidate.previous_word.type == WordType.VERB and candidate.previous_word.lemma in verbs:
+        candidate.np_ind += 1
+    else:
+      print("------ PREV WORD NONE: ", candidate)
 
   def lexical_reiteration_5(self, candidate):
     candidate.np_ind += candidate.reiteration_score
@@ -109,7 +114,6 @@ class AnaphoraCandidates:
       candidate.resolving_it_score = 2
   
   def referential_distance_9(self, candidate):
-    # pass
     candidate.np_ind += candidate.distance_score
   
   def __str__(self):
