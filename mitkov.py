@@ -69,8 +69,9 @@ class Mitkov():
                     self.compute_after_verb(word)
                     distance = self.get_distance(pronoun, word)
                     prev_word = self.get_previous_word(word)
+                    # candidate with multiple
                     candidate = Candidate(
-                        word, first_sentence, reiteration, distance, recent_count, prev_word)
+                        word, first_sentence, reiteration, distance, recent_count, prev_word, True)
                     anaphora.add_candidate(candidate)
         first_sentence = False
       self.anaphoras.append(anaphora)

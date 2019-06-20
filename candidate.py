@@ -2,7 +2,7 @@ import code
 from constants import WordType
 
 class Candidate:
-  def __init__(self, word, first_sentence, reiteration_score, distance_score, recent, previous_word):
+  def __init__(self, word, first_sentence, reiteration_score, distance_score, recent, previous_word, multiple = False):
     self.word = word
     self.np_ind = 0
     self.definite_score = 0
@@ -14,9 +14,13 @@ class Candidate:
     self.distance_score = distance_score
     self.recent = recent
     self.previous_word = previous_word
+    self.multiple = multiple
 
   def __str__(self):
-    return "Candidate: " + str(self.word.original) + "--- np_ind: " + str(self.np_ind)
+    text = ""
+    if self.multiple:
+      text = " MULTIPLE WORDS IN NP. ALL WORDS WITH THIS DESCRIPTION APPLY"
+    return "Candidate: " + str(self.word.original) + "--- np_ind: " + str(self.np_ind) + text
 
   def __repr__(self):
     return str(self)

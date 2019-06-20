@@ -19,8 +19,9 @@ class Phrase():
       word_count = 0
       for word in self.words:
         word_count += 1
-        if word.gender == Gender.M:
-          self.gender = Gender.M
+        if word.type == WordType.NOUN:
+          if word.gender == Gender.M:
+            self.gender = Gender.M
       if word_count > 1:
         self.number = Number.PLURAL
   
