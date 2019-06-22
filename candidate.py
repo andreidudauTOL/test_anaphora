@@ -100,7 +100,8 @@ class AnaphoraCandidates:
       if candidate.previous_word.type == WordType.VERB and candidate.previous_word.lemma in verbs:
         candidate.np_ind += 1
     else:
-      print("------ PREV WORD NONE: ", candidate)
+      # print("------ PREV WORD NONE: ", candidate)
+      print(" ")
 
   def lexical_reiteration_5(self, candidate):
     candidate.np_ind += candidate.reiteration_score
@@ -109,8 +110,11 @@ class AnaphoraCandidates:
     pass
   
   def collocation_pattern_7(self, candidate):
-    pass
-    #nlptools.info.uaic.ro/Resources.jsp
+    # pass
+    # print("---- PATTERN: ", self.pronoun, candidate, self.pronoun.pattern, candidate.word.pattern)
+    if self.pronoun.pattern == candidate.word.pattern and self.pronoun.index_in_sentence == candidate.word.index_in_sentence:
+      candidate.np_ind += 2
+
   
   def rezolving_it_8(self, candidate):
     if self.pronoun.after_verb and candidate.word.after_verb:

@@ -27,6 +27,7 @@ class Mitkov():
       for word in sentence.words:
         if word.type == WordType.PRONOUN:
           self.compute_after_verb(word)
+          word.pattern = sentence.get_colocation_pattern()
           pronouns.append(word)
     return pronouns
   
@@ -42,13 +43,14 @@ class Mitkov():
       for sentence in self.sentences:
         if pronoun_found:
           preceding_sentences += 1
-        if preceding_sentences > 0:
+        if preceding_sentences > 0: #pronoun already found, don't go further in th text. This is just anaphora.
           break
         for phrase in sentence.phrases.values():
           # code.interact(local=dict(globals(), **locals()))
           if phrase.type == WordType.NOUN:
             at_least_one_found = False
             for word in phrase.words:
+              word.pattern = sentence.get_colocation_pattern()
               if word.type == WordType.NOUN and anaphora.agrees(word):
                 at_least_one_found = True
                 reiteration = self.get_reiteration_count(word)

@@ -23,6 +23,8 @@ class Word(XcesWord):
     self.definite = False
     self.preposition = False
     self.after_verb = False
+    self.pattern = []
+    self.index_in_sentence = 0
     if self.type == WordType.PRONOUN:
       self.gender = Gender(self.ana[3])
       self.number = Number(self.ana[4])
