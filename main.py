@@ -9,7 +9,7 @@ from mitkov import Mitkov
 # "Câinele și băiatul sunt afară. Ei sunt cuminți."
 # Soldatul a luat mașina și copiii, a spălat-o, a curățat-o și a înapoiat-o. Ea este curată. Maria și Andrei iubesc mașina lui.
 # Maria cântă la pian. Ea cântă foarte frumos. Tatăl său a învățat-o să cânte la pian. El este bătrân.
-text = "Soldatul a luat mașina și copiii, a spălat-o, a curățat-o și a înapoiat-o. Ea este curată. Maria și Andrei iubesc mașina lui."
+text = "Lupoaica are blănuri. Ele sunt foarte frumoase și sunt pe mese."
 text = text.replace(','," ")
 text = text.replace(':', " ")
 text = text.replace(';', " ")
